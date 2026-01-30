@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://bn2w0s0w84vv2"]
+
+[ext_resource type="Script" uid="uid://dpipnw76p41td" path="res://Level.cs" id="1_vonw3"]
+[ext_resource type="PackedScene" uid="uid://dtbyedw88e5aa" path="res://GreenTile.tscn" id="2_oi3di"]
+[ext_resource type="PackedScene" uid="uid://ccp6nrb812n3k" path="res://player.tscn" id="3_oi3di"]
+
+[node name="Level" type="Node" unique_id=1349467936]
+script = ExtResource("1_vonw3")
+BasicTile = ExtResource("2_oi3di")
+
+[node name="Player" parent="." unique_id=1141944109 instance=ExtResource("3_oi3di")]
