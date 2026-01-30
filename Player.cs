@@ -75,12 +75,29 @@ public partial class Player : Area2D
 	}
 
 	// We also specified this function name in PascalCase in the editor's connection window.
-	private void OnBodyEntered(Node2D body)
+	private void OnBodyEntered(Area2D body)
 	{
-		Hide(); // Player disappears after being hit.
-		EmitSignal(SignalName.Hit);
-		// Must be deferred as we can't change physics properties on a physics callback.
-		GetNode<CollisionShape2D>("CollisionShape2D")
-			.SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
+		//GD.Print("Player hit with " + body.Name);
+
+		if (body is Enemy)
+		{
+			GD.Print("Player hit an enemy!");
+
+			if (GetNode<Camouflage>("Camouflage").Contrast > 0.2f)
+			{
+				GD.Print("Player is visible and takes damage.");
+				EmitSignal(SignalName.Hit);
+			}
+			else
+			{
+				GD.Print("Player is camouflaged and avoids damage.");
+			}
+		}
+
+		// Hide(); // Player disappears after being hit.
+		// EmitSignal(SignalName.Hit);
+		// // Must be deferred as we can't change physics properties on a physics callback.
+		// GetNode<CollisionShape2D>("CollisionShape2D")
+		// 	.SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
 	}
 }

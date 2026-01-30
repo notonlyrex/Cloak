@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://kn4bwy7845ug"]
+
+[ext_resource type="Script" uid="uid://f30cv5jkhbq0" path="res://Enemy.cs" id="1_s7bn3"]
+[ext_resource type="Texture2D" uid="uid://cudqqwpj47beo" path="res://art/tile_0067.png" id="1_tt7e2"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_s7bn3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_tt7e2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2hac7"]
+size = Vector2(55, 62)
+
+[node name="Enemy" type="Area2D" unique_id=1632434502]
+script = ExtResource("1_s7bn3")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=789517721]
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_s7bn3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=695827544]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_2hac7")
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=683336604]
+color = Color(1, 0, 0, 0.2509804)
+polygon = PackedVector2Array(-26, 30, -71, 187, 87, 188, 27, 31)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=466548926]
+position = Vector2(1.6783752, 0.8415451)
+scale = Vector2(1.0152026, 0.99632347)
+polygon = PackedVector2Array(-25, 30, -66, 183, 82, 183, 26, 30)
