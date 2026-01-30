@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://ccp6nrb812n3k"]
+
+[ext_resource type="Script" uid="uid://dik6a55dtja2" path="res://Player.cs" id="1_onrkg"]
+[ext_resource type="Texture2D" uid="uid://dj7ccj4r1mlya" path="res://art/player.png" id="2_i3pqv"]
+[ext_resource type="Script" uid="uid://c546nmo065tf4" path="res://Camouflage.cs" id="3_i3pqv"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hqtel"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_i3pqv")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sweqy"]
+radius = 21.0
+height = 46.0
+
+[node name="Player" type="Area2D" unique_id=1141944109]
+script = ExtResource("1_onrkg")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1307472488]
+sprite_frames = SubResource("SpriteFrames_hqtel")
+animation = &"walk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1168481909]
+position = Vector2(-3, 2)
+shape = SubResource("CapsuleShape2D_sweqy")
+
+[node name="Camouflage" type="Node2D" parent="." unique_id=1480578124]
+script = ExtResource("3_i3pqv")
+IsActive = false
+
+[node name="Area1" type="Polygon2D" parent="Camouflage" unique_id=546527488]
+color = Color(1, 0, 0, 0.39607844)
+polygon = PackedVector2Array(6, 8, 10, 23, -1, 23, -4, 17, -7, 17, -9, 23, -19, 23, -18, 12, -22, 10, -22, -1, -19, -8, -14, -19, -2, -19, 6, -17, 7, -2)
+
+[node name="Timer" type="Timer" parent="Camouflage" unique_id=1630032834]
+autostart = true
+
+[connection signal="body_entered" from="." to="." method="OnBodyEntered"]
+[connection signal="timeout" from="Camouflage/Timer" to="Camouflage" method="OnTimerTimeout"]
