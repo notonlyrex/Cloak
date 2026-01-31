@@ -166,9 +166,24 @@ public partial class Level : Node
 		else if (LevelNumber == 9)
 		{
 			var enemyInstance = rotenemy.Instantiate<RotatingEnemy>();
+			enemyInstance.RotationDegrees = 180;
 			enemyInstance.Position = new Vector2(406, 31);
 
 			AddChild(enemyInstance);
+		}
+		else if (LevelNumber > 9 && LevelNumber <= 12)
+		{
+			int enemyCount = LevelNumber / 2;
+			for (int i = 0; i < enemyCount; i++)
+			{
+				var rotatingEnemyInstance = rotenemy.Instantiate<RotatingEnemy>();
+				rotatingEnemyInstance.Position = new Vector2(
+					Random.Shared.Next(60, mapWidth * tileSize - 60),
+					Random.Shared.Next(60, mapHeight * tileSize - 120)
+				);
+				rotatingEnemyInstance.RotationDegrees = 180;
+				AddChild(rotatingEnemyInstance);
+			}
 		}
 		else
 		{

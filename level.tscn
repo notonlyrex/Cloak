@@ -1,21 +1,21 @@
 [gd_scene format=3 uid="uid://bn2w0s0w84vv2"]
 
-[ext_resource type="Script" uid="uid://dpipnw76p41td" path="res://Level.cs" id="1_vonw3"]
-[ext_resource type="PackedScene" uid="uid://dtbyedw88e5aa" path="res://Tile.tscn" id="2_oi3di"]
-[ext_resource type="PackedScene" uid="uid://ccp6nrb812n3k" path="res://player.tscn" id="3_oi3di"]
-[ext_resource type="PackedScene" uid="uid://b1edkc1him64l" path="res://HUD.tscn" id="5_f2txt"]
-[ext_resource type="PackedScene" uid="uid://2qm2a0f87scr" path="res://FinishPoint.tscn" id="6_1ainy"]
+[ext_resource type="Script" uid="uid://dpipnw76p41td" path="res://Level.cs" id="1_q4iis"]
+[ext_resource type="PackedScene" uid="uid://dtbyedw88e5aa" path="res://Tile.tscn" id="2_m3clv"]
+[ext_resource type="PackedScene" uid="uid://ccp6nrb812n3k" path="res://Player.tscn" id="3_mxnmf"]
+[ext_resource type="PackedScene" uid="uid://b1edkc1him64l" path="res://HUD.tscn" id="4_4eo0i"]
+[ext_resource type="PackedScene" uid="uid://2qm2a0f87scr" path="res://FinishPoint.tscn" id="5_86ljf"]
 
 [node name="Level" type="Node" unique_id=1349467936]
-script = ExtResource("1_vonw3")
-BasicTile = ExtResource("2_oi3di")
+script = ExtResource("1_q4iis")
+BasicTile = ExtResource("2_m3clv")
 
-[node name="Player" parent="." unique_id=1141944109 instance=ExtResource("3_oi3di")]
+[node name="Player" parent="." unique_id=1141944109 instance=ExtResource("3_mxnmf")]
 position = Vector2(29, 36)
 
-[node name="Hud" parent="." unique_id=1158713380 instance=ExtResource("5_f2txt")]
+[node name="Hud" parent="." unique_id=1158713380 instance=ExtResource("4_4eo0i")]
 
-[node name="FinishPoint" parent="." unique_id=1802560117 instance=ExtResource("6_1ainy")]
+[node name="FinishPoint" parent="." unique_id=1802560117 instance=ExtResource("5_86ljf")]
 position = Vector2(603, 444)
 
 [connection signal="CamouflageUpdated" from="Player" to="Hud" method="OnCamouflageUpdated"]

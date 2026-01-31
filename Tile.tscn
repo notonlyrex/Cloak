@@ -11,6 +11,7 @@ monitoring = false
 script = ExtResource("1_je3b2")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1963186935]
+texture_filter = 1
 position = Vector2(32, 32)
 scale = Vector2(4, 4)
 
