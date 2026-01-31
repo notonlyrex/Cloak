@@ -5,6 +5,7 @@ public partial class SceneManager : Node2D
 {
 	private int levelIndex = 1;
 	private Level current;
+	private GameOver gameOver;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -26,15 +27,10 @@ public partial class SceneManager : Node2D
 
 	private void LoadGameOver()
 	{
-		var current = ResourceLoader
-			.Load<PackedScene>("res://GameOver.tscn")
-			.Instantiate<GameOver>();
-		current.FinalScore = levelIndex - 1;
-		// current.Connect(
-		//     GameOver.SignalName.LevelFinished,
-		//     new Callable(this, nameof(OnLevelFinished))
-		// );
-		AddChild(current);
+		gameOver = ResourceLoader.Load<PackedScene>("res://GameOver.tscn").Instantiate<GameOver>();
+		gameOver.FinalScore = levelIndex - 1;
+		gameOver.Connect(GameOver.SignalName.Restart, new Callable(this, nameof(OnRestart)));
+		AddChild(gameOver);
 	}
 
 	private void OnGameOver()
@@ -46,6 +42,16 @@ public partial class SceneManager : Node2D
 		current.QueueFree();
 
 		CallDeferred(nameof(LoadGameOver));
+	}
+
+	private void OnRestart()
+	{
+		gameOver.Disconnect(GameOver.SignalName.Restart, new Callable(this, nameof(OnRestart)));
+		gameOver.QueueFree();
+
+		levelIndex = 1;
+		GD.Print("Loading level " + levelIndex);
+		CallDeferred(nameof(LoadNewLevel));
 	}
 
 	public override void _Process(double delta) { }
