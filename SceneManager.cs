@@ -34,7 +34,7 @@ public partial class SceneManager : Node2D
 			Level.SignalName.LevelFinished,
 			new Callable(this, nameof(OnLevelFinished))
 		);
-		RemoveChild(current);
+		current.QueueFree();
 
 		levelIndex += 1;
 		GD.Print("Loading level " + levelIndex);
