@@ -32,24 +32,50 @@ public partial class Level : Node
 		//PrintLevel();
 
 		Texture2D grass = GD.Load<Texture2D>("res://art/terrain/tile_0000.png");
+		Texture2D grass2 = GD.Load<Texture2D>("res://art/terrain/tile_0001.png");
+		Texture2D grass3 = GD.Load<Texture2D>("res://art/terrain/tile_0002.png");
+
 		Texture2D water = GD.Load<Texture2D>("res://art/terrain/tile_0037.png");
+
+		Texture2D urban = GD.Load<Texture2D>("res://art/terrain/tile_0110.png");
 
 		for (int i = 0; i < mapWidth; i++)
 		{
 			for (int j = 0; j < mapHeight; j++)
 			{
 				Tile tile = _tileScene.Instantiate<Tile>();
-				tile.TileColor = (map[i, j] == 0) ? Colors.Green : Colors.Blue;
-
 				tile.Position = new Vector2(i * tileSize, j * tileSize);
 				AddChild(tile);
 
 				// _Ready is run after AddChild, so _sprite is initialized
 				// so SetTexture wasn't working earlier
-				if (map[i, j] == 0)
-					tile.SetTexture(grass);
-				else
-					tile.SetTexture(water);
+				switch (map[i, j])
+				{
+					case 0:
+						tile.SetTexture(grass);
+						tile.TileColor = Colors.Green;
+						break;
+					case 1:
+						tile.SetTexture(water);
+						tile.TileColor = Colors.Blue;
+						break;
+					case 2:
+						tile.SetTexture(grass2);
+						tile.TileColor = Colors.LightGreen;
+						break;
+					case 3:
+						tile.SetTexture(grass3);
+						tile.TileColor = Colors.DarkGreen;
+						break;
+					case 4:
+						tile.SetTexture(urban);
+						tile.TileColor = Colors.Gray;
+						break;
+					default:
+						tile.SetTexture(grass);
+						tile.TileColor = Colors.Green;
+						break;
+				}
 			}
 		}
 
@@ -62,10 +88,10 @@ public partial class Level : Node
 		// first level has 2 types, second has 3, etc.
 		// up to a max of 5 types
 		var tileTypes = 2;
-		// if (LevelNumber > 1)
-		// {
-		//     tileTypes = Math.Min(2 + LevelNumber - 1, 5);
-		// }
+		if (LevelNumber > 1)
+		{
+			tileTypes = Math.Min(2 + LevelNumber - 1, 5);
+		}
 
 		// similarly, increase map size with level number
 		// up to a max size
