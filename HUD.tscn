@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b1edkc1him64l"]
 
 [ext_resource type="Script" uid="uid://cjax0cc17gnmn" path="res://Hud.cs" id="1_k5de2"]
+[ext_resource type="LabelSettings" uid="uid://coxyjoop5ycbj" path="res://fontsettings.tres" id="2_efote"]
 
 [node name="Hud" type="Node2D" unique_id=1158713380]
 script = ExtResource("1_k5de2")
@@ -16,6 +17,7 @@ offset_top = -23.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "Camouflage: Active Energy: 5 Level: 100%"
+label_settings = ExtResource("2_efote")
 
 [node name="Level" type="Label" parent="HUD" unique_id=514056497]
 anchors_preset = 5
@@ -27,4 +29,5 @@ offset_bottom = 49.0
 grow_horizontal = 2
 text = "Level 1
 "
+label_settings = ExtResource("2_efote")
 horizontal_alignment = 1

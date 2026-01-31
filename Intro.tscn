@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://ccp6nrb812n3k" path="res://player.tscn" id="1_gjrx4"]
 [ext_resource type="Script" uid="uid://cp2j66upbom4m" path="res://Intro.cs" id="1_sb8jg"]
+[ext_resource type="LabelSettings" uid="uid://coxyjoop5ycbj" path="res://fontsettings.tres" id="2_vltdc"]
 
 [node name="IntroLevel" type="Node" unique_id=1349467936]
 script = ExtResource("1_sb8jg")
@@ -12,10 +13,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -300.0
-offset_top = 96.0
-offset_right = 123.0
-offset_bottom = 223.0
+offset_left = -308.0
+offset_top = 75.0
+offset_right = 307.0
+offset_bottom = 224.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "This is Bob.
@@ -23,6 +24,8 @@ You can use Left, Right, Up and Down to move it.
 
 But it can activate ADAPTIVE MASKING with \"S\" button.
 \"A\" and \"D\" will change the mask color."
+label_settings = ExtResource("2_vltdc")
+autowrap_mode = 2
 
 [node name="Button" type="Button" parent="." unique_id=1554294634]
 anchors_preset = 8
@@ -39,6 +42,6 @@ grow_vertical = 2
 text = "Start game"
 
 [node name="Player" parent="." unique_id=1141944109 instance=ExtResource("1_gjrx4")]
-position = Vector2(75, 293)
+position = Vector2(90, 253)
 
 [connection signal="pressed" from="Button" to="." method="OnButtonPressed"]

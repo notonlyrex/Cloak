@@ -30,7 +30,7 @@ public partial class Hud : Node2D
 
 	private string GetCamouflageStatus()
 	{
-		return $"Camouflage: {(isActive ? "ON" : "OFF")} (Level: {camouflageLevel:F1}%, Energy: {energy} s)";
+		return $"Camouflage: {(isActive ? "ON" : "OFF")}\nCamouflage level: {camouflageLevel:F1}%\nRemaining camouflage time: {energy} s";
 	}
 
 	internal void SetLevelNumber(int levelNumber)
