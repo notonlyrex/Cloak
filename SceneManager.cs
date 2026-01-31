@@ -29,9 +29,15 @@ public partial class SceneManager : Node2D
 
 	private void OnLevelFinished()
 	{
-		levelIndex += 1;
+		GD.Print("On level finished!");
+		current.Disconnect(
+			Level.SignalName.LevelFinished,
+			new Callable(this, nameof(OnLevelFinished))
+		);
 		RemoveChild(current);
 
+		levelIndex += 1;
+		GD.Print("Loading level " + levelIndex);
 		LoadNewLevel();
 	}
 }

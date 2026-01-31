@@ -18,8 +18,10 @@ public partial class Player : Area2D
 	public Vector2 ScreenSize;
 
 	private float contrast = 1f;
+	private bool levelFinished = false;
 
 	// Called when the node enters the scene tree for the first time.
+
 	public override void _Ready()
 	{
 		ScreenSize = GetViewportRect().Size;
@@ -154,8 +156,9 @@ public partial class Player : Area2D
             CheckHit();
         }
 
-        if (body is FinishPoint)
+        if (body is FinishPoint && !levelFinished)
         {
+            levelFinished = true;
             GD.Print("Level Finished!");
             EmitSignal(SignalName.Finish);
         }

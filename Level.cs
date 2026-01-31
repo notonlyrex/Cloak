@@ -18,14 +18,14 @@ public partial class Level : Node
 
 	private PackedScene _tileScene;
 
-	public int LevelNumber { get; set; }
+	public int LevelNumber { get; set; } = 1;
 
 	public override void _Ready()
 	{
 		_tileScene = GD.Load<PackedScene>("res://Tile.tscn");
 
 		GenerateLevel();
-		PrintLevel();
+		//PrintLevel();
 
 		Texture2D grass = GD.Load<Texture2D>("res://art/terrain/tile_0000.png");
 		Texture2D water = GD.Load<Texture2D>("res://art/terrain/tile_0037.png");
@@ -100,6 +100,11 @@ public partial class Level : Node
 			}
 			GD.Print(row);
 		}
+	}
+
+	private void OnLevelCompleted()
+	{
+		EmitSignal(SignalName.LevelFinished);
 	}
 
 	[Export]

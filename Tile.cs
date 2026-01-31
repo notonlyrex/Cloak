@@ -13,7 +13,7 @@ public partial class Tile : Area2D
 	public override void _Ready()
 	{
 		_sprite = GetNode<Sprite2D>("Sprite2D");
-		GD.Print("Sprite1: " + _sprite);
+		//GD.Print("Sprite1: " + _sprite);
 
 		if (Texture != null)
 			_sprite.Texture = Texture;
@@ -22,8 +22,8 @@ public partial class Tile : Area2D
 	public void SetTexture(Texture2D texture)
 	{
 		Texture = texture;
-		GD.Print(texture);
-		GD.Print("Sprite2: " + _sprite);
+		//GD.Print(texture);
+		//GD.Print("Sprite2: " + _sprite);
 
 		_sprite.Texture = texture;
 	}
