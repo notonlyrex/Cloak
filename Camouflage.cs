@@ -71,7 +71,7 @@ public partial class Camouflage : Node
 		}
 	}
 
-	public float CalculateContrast(GreenTile tile)
+	public float CalculateContrast(Tile tile)
 	{
 		if (!IsActive)
 			return 1f;

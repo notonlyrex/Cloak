@@ -110,7 +110,7 @@ public partial class Player : Area2D
 		int tileCount = 0;
 		foreach (var area in area2DList)
 		{
-			if (area is GreenTile tile)
+			if (area is Tile tile)
 			{
 				var camouflage = GetNode<Camouflage>("Camouflage");
 				contrast = camouflage.CalculateContrast(tile);
