@@ -147,7 +147,7 @@ public partial class Player : Area2D
 
     private void CheckHit()
     {
-        if (contrast > 0.2f && !levelFinished)
+        if (contrast > 0.3f && !levelFinished)
         {
             levelFinished = true;
             GD.Print("Player is visible and takes damage, contrast: " + contrast);
