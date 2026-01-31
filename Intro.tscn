@@ -8,22 +8,23 @@
 script = ExtResource("1_sb8jg")
 
 [node name="Label" type="Label" parent="." unique_id=294731154]
-anchors_preset = 8
+anchors_preset = 7
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -308.0
-offset_top = 75.0
-offset_right = 307.0
-offset_bottom = 224.0
+anchor_bottom = 1.0
+offset_left = -307.5
+offset_top = -187.0
+offset_right = 307.5
 grow_horizontal = 2
-grow_vertical = 2
+grow_vertical = 0
 text = "This is Bob.
 You can use Left, Right, Up and Down to move it.
 
 But it can activate ADAPTIVE MASKING with \"S\" button.
-\"A\" and \"D\" will change the mask color."
+\"A\" and \"D\" will change the mask color.
+
+Try to maintain the 90% masking level."
 label_settings = ExtResource("2_vltdc")
 autowrap_mode = 2
 
@@ -42,6 +43,6 @@ grow_vertical = 2
 text = "Start game"
 
 [node name="Player" parent="." unique_id=1141944109 instance=ExtResource("1_gjrx4")]
-position = Vector2(90, 253)
+position = Vector2(100, 177)
 
 [connection signal="pressed" from="Button" to="." method="OnButtonPressed"]
