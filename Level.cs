@@ -7,6 +7,9 @@ public partial class Level : Node
 	[Signal]
 	public delegate void LevelFinishedEventHandler();
 
+	[Signal]
+	public delegate void GameOverEventHandler();
+
 	int mapWidth = 10;
 	int mapHeight = 8;
 
@@ -107,6 +110,11 @@ public partial class Level : Node
 	private void OnLevelCompleted()
 	{
 		EmitSignal(SignalName.LevelFinished);
+	}
+
+	private void OnGameOver()
+	{
+		EmitSignal(SignalName.GameOver);
 	}
 
 	[Export]

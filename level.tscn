@@ -24,3 +24,4 @@ position = Vector2(603, 444)
 
 [connection signal="CamouflageUpdated" from="Player" to="Hud" method="OnCamouflageUpdated"]
 [connection signal="Finish" from="Player" to="." method="OnLevelCompleted"]
+[connection signal="GameOver" from="Player" to="." method="OnGameOver"]

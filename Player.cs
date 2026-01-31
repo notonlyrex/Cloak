@@ -10,6 +10,9 @@ public partial class Player : Area2D
 	public delegate void FinishEventHandler();
 
 	[Signal]
+	public delegate void GameOverEventHandler();
+
+	[Signal]
 	public delegate void CamouflageUpdatedEventHandler(float contrast, int energy, bool active);
 
 	[Export]
@@ -137,10 +140,11 @@ public partial class Player : Area2D
 
     private void CheckHit()
     {
-        if (contrast > 0.2f)
+        if (contrast > 0.2f && !levelFinished)
         {
+            levelFinished = true;
             GD.Print("Player is visible and takes damage.");
-            EmitSignal(SignalName.Hit);
+            EmitSignal(SignalName.GameOver);
         }
         else
         {

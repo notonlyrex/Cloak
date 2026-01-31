@@ -20,10 +20,33 @@ public partial class SceneManager : Node2D
 			Level.SignalName.LevelFinished,
 			new Callable(this, nameof(OnLevelFinished))
 		);
+		current.Connect(Level.SignalName.GameOver, new Callable(this, nameof(OnGameOver)));
 		AddChild(current);
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	private void LoadGameOver()
+	{
+		var current = ResourceLoader
+			.Load<PackedScene>("res://GameOver.tscn")
+			.Instantiate<GameOver>();
+		current.FinalScore = levelIndex - 1;
+		// current.Connect(
+		//     GameOver.SignalName.LevelFinished,
+		//     new Callable(this, nameof(OnLevelFinished))
+		// );
+		AddChild(current);
+	}
+
+	private void OnGameOver()
+	{
+		current.Disconnect(
+			Level.SignalName.LevelFinished,
+			new Callable(this, nameof(OnLevelFinished))
+		);
+		current.QueueFree();
+
+		CallDeferred(nameof(LoadGameOver));
+	}
 
 	public override void _Process(double delta) { }
 
