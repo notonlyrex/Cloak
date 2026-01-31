@@ -143,7 +143,7 @@ public partial class Player : Area2D
         if (contrast > 0.2f && !levelFinished)
         {
             levelFinished = true;
-            GD.Print("Player is visible and takes damage.");
+            GD.Print("Player is visible and takes damage, contrast: " + contrast);
             EmitSignal(SignalName.GameOver);
         }
         else

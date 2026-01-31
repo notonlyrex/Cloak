@@ -15,7 +15,7 @@ BasicTile = ExtResource("2_oi3di")
 position = Vector2(29, 36)
 
 [node name="Enemy" parent="." unique_id=65281874 instance=ExtResource("4_0b4ue")]
-position = Vector2(451, 187)
+position = Vector2(406, 31)
 
 [node name="Hud" parent="." unique_id=1158713380 instance=ExtResource("5_f2txt")]
 
