@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://bpphd4jq71ugb"]
+
+[ext_resource type="Script" uid="uid://dr6sdp7im7481" path="res://RotatingEnemy.cs" id="1_tfqtr"]
+[ext_resource type="Texture2D" uid="uid://cudqqwpj47beo" path="res://art/tile_0067.png" id="2_lqkuv"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_s7bn3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_lqkuv")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2hac7"]
+size = Vector2(55, 62)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s7bn3"]
+size = Vector2(20, 401)
+
+[node name="RotatingEnemy" type="Area2D" unique_id=1632434502]
+monitoring = false
+script = ExtResource("1_tfqtr")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=789517721]
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_s7bn3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=695827544]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_2hac7")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=1909750068]
+position = Vector2(0, 231.5)
+shape = SubResource("RectangleShape2D_s7bn3")
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=1845593656]
+color = Color(1, 0, 0, 0.4509804)
+polygon = PackedVector2Array(-10, 30, 10, 30, 9, 219, 1, 464, -10, 219)

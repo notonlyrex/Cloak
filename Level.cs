@@ -123,11 +123,11 @@ public partial class Level : Node
 
 	void GenerateEnemies()
 	{
-		var enemy = GD.Load<PackedScene>("res://Enemy.tscn");
+		var enemy = GD.Load<PackedScene>("res://RotatingEnemy.tscn");
 
 		if (LevelNumber == 1)
 		{
-			var enemyInstance = enemy.Instantiate<Enemy>();
+			var enemyInstance = enemy.Instantiate<RotatingEnemy>();
 			enemyInstance.Position = new Vector2(406, 31);
 
 			AddChild(enemyInstance);
