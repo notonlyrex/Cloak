@@ -32,4 +32,10 @@ public partial class Hud : Node2D
 	{
 		return $"Camouflage: {(isActive ? "ON" : "OFF")} (Level: {camouflageLevel:F1}%, Energy: {energy} s)";
 	}
+
+	internal void SetLevelNumber(int levelNumber)
+	{
+		Label levelLabel = GetNode<Label>("HUD/Level");
+		levelLabel.Text = $"Level: {levelNumber}";
+	}
 }

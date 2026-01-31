@@ -48,6 +48,8 @@ public partial class Level : Node
 					tile.SetTexture(water);
 			}
 		}
+
+		GetNode<Hud>("Hud").SetLevelNumber(LevelNumber);
 	}
 
 	void GenerateLevel()
