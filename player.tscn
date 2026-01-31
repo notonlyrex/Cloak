@@ -45,4 +45,5 @@ autostart = true
 
 [connection signal="area_entered" from="." to="." method="OnBodyEntered"]
 [connection signal="area_entered" from="." to="Camouflage" method="OnCamouflageCollision"]
+[connection signal="CamouflageUpdated" from="Camouflage" to="." method="OnContrastUpdated"]
 [connection signal="timeout" from="Camouflage/Timer" to="Camouflage" method="OnTimerTimeout"]

@@ -8,6 +8,7 @@ size = Vector2(64, 64)
 
 [node name="Node2D" type="Area2D" unique_id=1327597511]
 z_index = -1
+monitoring = false
 script = ExtResource("1_wsdls")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1963186935]

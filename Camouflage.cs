@@ -4,7 +4,7 @@ using Godot;
 public partial class Camouflage : Node
 {
 	[Signal]
-	public delegate void EnterEventHandler(float contrast);
+	public delegate void CamouflageUpdatedEventHandler(float contrast, int energy, bool active);
 
 	[Export]
 	public float Alpha { get; set; } = 0.3f;
@@ -58,9 +58,15 @@ public partial class Camouflage : Node
 		{
 			GD.Print($"Contrast: {Contrast}");
 			IsActive = !IsActive;
+			EmitSignal(SignalName.CamouflageUpdated, Contrast, Energy, IsActive);
 			if (!IsActive)
 			{
 				Contrast = 1;
+
+				if (collider != null)
+				{
+					UpdateContrast(collider);
+				}
 			}
 		}
 
@@ -72,17 +78,24 @@ public partial class Camouflage : Node
 		if (IsActive && Energy > 0)
 		{
 			Energy -= 1;
+			EmitSignal(SignalName.CamouflageUpdated, Contrast, Energy, IsActive);
 		}
 
 		if (!IsActive && Energy < 10)
 		{
 			Energy += 1;
+			EmitSignal(SignalName.CamouflageUpdated, Contrast, Energy, IsActive);
 		}
 
 		if (Energy <= 0)
 		{
 			IsActive = false;
 			Contrast = 1;
+
+			if (collider != null)
+			{
+				UpdateContrast(collider);
+			}
 		}
 	}
 
@@ -112,6 +125,9 @@ public partial class Camouflage : Node
 		Contrast = MathF.Abs(h1 - h2);
 
 		GD.Print($"Contrast: {Contrast}");
+
+		EmitSignal(SignalName.CamouflageUpdated, Contrast, Energy, IsActive);
+
 		return true;
 	}
 }

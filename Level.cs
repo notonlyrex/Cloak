@@ -10,12 +10,12 @@ public partial class Level : Node
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 10; i++)
 		{
-			for (int j = 0; j < 1; j++)
+			for (int j = 0; j < 8; j++)
 			{
 				var tile = BasicTile.Instantiate<GreenTile>();
-				tile.Position = new Vector2(i * 128, j * 128);
+				tile.Position = new Vector2(i * 64, j * 64);
 				AddChild(tile);
 			}
 		}

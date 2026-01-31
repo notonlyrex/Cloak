@@ -6,6 +6,9 @@ public partial class Player : Area2D
 	[Signal]
 	public delegate void HitEventHandler();
 
+	[Signal]
+	public delegate void CamouflageUpdatedEventHandler(float contrast, int energy, bool active);
+
 	[Export]
 	public int Speed { get; set; } = 400; // How fast the player will move (pixels/sec).
 
@@ -74,7 +77,33 @@ public partial class Player : Area2D
 		}
 	}
 
-	// We also specified this function name in PascalCase in the editor's connection window.
+	private void OnContrastUpdated(float contrast)
+	{
+		GD.Print("Player detected contrast update from Camouflage.");
+
+		var area2DList = GetOverlappingAreas();
+		foreach (var area in area2DList)
+		{
+			if (area is Enemy enemy)
+			{
+				CheckHit();
+			}
+		}
+	}
+
+	private void CheckHit()
+	{
+		if (GetNode<Camouflage>("Camouflage").Contrast > 0.2f)
+		{
+			GD.Print("Player is visible and takes damage.");
+			EmitSignal(SignalName.Hit);
+		}
+		else
+		{
+			GD.Print("Player is camouflaged and avoids damage.");
+		}
+	}
+
 	private void OnBodyEntered(Area2D body)
 	{
 		//GD.Print("Player hit with " + body.Name);
@@ -82,16 +111,7 @@ public partial class Player : Area2D
 		if (body is Enemy)
 		{
 			GD.Print("Player hit an enemy!");
-
-			if (GetNode<Camouflage>("Camouflage").Contrast > 0.2f)
-			{
-				GD.Print("Player is visible and takes damage.");
-				EmitSignal(SignalName.Hit);
-			}
-			else
-			{
-				GD.Print("Player is camouflaged and avoids damage.");
-			}
+			CheckHit();
 		}
 
 		// Hide(); // Player disappears after being hit.
@@ -99,5 +119,10 @@ public partial class Player : Area2D
 		// // Must be deferred as we can't change physics properties on a physics callback.
 		// GetNode<CollisionShape2D>("CollisionShape2D")
 		// 	.SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
+	}
+
+	private void OnContrastUpdated(float contrast, int energy, bool active)
+	{
+		EmitSignal(SignalName.CamouflageUpdated, contrast, energy, active);
 	}
 }

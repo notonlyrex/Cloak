@@ -18,6 +18,7 @@ animations = [{
 size = Vector2(55, 62)
 
 [node name="Enemy" type="Area2D" unique_id=1632434502]
+monitoring = false
 script = ExtResource("1_s7bn3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=789517721]
@@ -28,11 +29,13 @@ sprite_frames = SubResource("SpriteFrames_s7bn3")
 position = Vector2(0.5, 0)
 shape = SubResource("RectangleShape2D_2hac7")
 
-[node name="Polygon2D" type="Polygon2D" parent="." unique_id=683336604]
-color = Color(1, 0, 0, 0.2509804)
-polygon = PackedVector2Array(-26, 30, -71, 187, 87, 188, 27, 31)
-
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=466548926]
 position = Vector2(1.6783752, 0.8415451)
 scale = Vector2(1.0152026, 0.99632347)
 polygon = PackedVector2Array(-25, 30, -66, 183, 82, 183, 26, 30)
+
+[node name="Polygon2D" type="Polygon2D" parent="CollisionPolygon2D" unique_id=683336604]
+position = Vector2(-1.6532415, -0.8446505)
+scale = Vector2(0.985025, 1.0036901)
+color = Color(1, 0, 0, 0.2509804)
+polygon = PackedVector2Array(-23, 31, -65, 183, 85, 184, 27, 31)

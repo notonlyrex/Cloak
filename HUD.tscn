@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://b1edkc1him64l"]
+
+[ext_resource type="Script" uid="uid://cjax0cc17gnmn" path="res://Hud.cs" id="1_k5de2"]
+
+[node name="Hud" type="Node2D" unique_id=1158713380]
+script = ExtResource("1_k5de2")
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=905444171]
+
+[node name="Camouflage" type="Label" parent="HUD" unique_id=1188530821]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Camouflage: Active Energy: 5 Level: 100%"
+
+[node name="Level" type="Label" parent="HUD" unique_id=514056497]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -51.5
+offset_right = 51.5
+offset_bottom = 49.0
+grow_horizontal = 2
+text = "Level 1
+"
+horizontal_alignment = 1
