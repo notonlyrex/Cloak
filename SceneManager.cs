@@ -38,6 +38,6 @@ public partial class SceneManager : Node2D
 
 		levelIndex += 1;
 		GD.Print("Loading level " + levelIndex);
-		LoadNewLevel();
+		CallDeferred(nameof(LoadNewLevel));
 	}
 }
