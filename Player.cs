@@ -94,6 +94,13 @@ public partial class Player : Area2D
             GetNode<Camouflage>("Camouflage").Energy,
             GetNode<Camouflage>("Camouflage").IsActive
         );
+
+        if (Input.IsActionJustReleased("skip_level") && !levelFinished)
+        {
+            levelFinished = true;
+            GD.Print("Level Finished (skipped)!");
+            EmitSignal(SignalName.Finish);
+        }
     }
 
     private void CheckAllHits()
@@ -154,12 +161,6 @@ public partial class Player : Area2D
 
     private void OnBodyEntered(Area2D body)
     {
-        if (body is Enemy)
-        {
-            GD.Print("Player hit an enemy!");
-            CheckHit();
-        }
-
         if (body is FinishPoint && !levelFinished)
         {
             levelFinished = true;
@@ -167,17 +168,17 @@ public partial class Player : Area2D
             EmitSignal(SignalName.Finish);
         }
 
-        // Hide(); // Player disappears after being hit.
-        // EmitSignal(SignalName.Hit);
-		// // Must be deferred as we can't change physics properties on a physics callback.
-		// GetNode<CollisionShape2D>("CollisionShape2D")
-		// 	.SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
-	}
+        if (body is Enemy && !levelFinished)
+        {
+            GD.Print("Player hit an enemy!");
+            CheckHit();
+        }
+    }
 
-	private void OnCamouflageUpdated(int energy, bool active)
-	{
-		CalculateContrast();
-		CheckAllHits();
-		EmitSignal(SignalName.CamouflageUpdated, contrast, energy, active);
-	}
+    private void OnCamouflageUpdated(int energy, bool active)
+    {
+        CalculateContrast();
+        CheckAllHits();
+        EmitSignal(SignalName.CamouflageUpdated, contrast, energy, active);
+    }
 }

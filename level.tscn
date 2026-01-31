@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://dpipnw76p41td" path="res://Level.cs" id="1_vonw3"]
 [ext_resource type="PackedScene" uid="uid://dtbyedw88e5aa" path="res://Tile.tscn" id="2_oi3di"]
 [ext_resource type="PackedScene" uid="uid://ccp6nrb812n3k" path="res://player.tscn" id="3_oi3di"]
-[ext_resource type="PackedScene" uid="uid://kn4bwy7845ug" path="res://Enemy.tscn" id="4_0b4ue"]
 [ext_resource type="PackedScene" uid="uid://b1edkc1him64l" path="res://HUD.tscn" id="5_f2txt"]
 [ext_resource type="PackedScene" uid="uid://2qm2a0f87scr" path="res://FinishPoint.tscn" id="6_1ainy"]
 
@@ -13,9 +12,6 @@ BasicTile = ExtResource("2_oi3di")
 
 [node name="Player" parent="." unique_id=1141944109 instance=ExtResource("3_oi3di")]
 position = Vector2(29, 36)
-
-[node name="Enemy" parent="." unique_id=65281874 instance=ExtResource("4_0b4ue")]
-position = Vector2(406, 31)
 
 [node name="Hud" parent="." unique_id=1158713380 instance=ExtResource("5_f2txt")]
 

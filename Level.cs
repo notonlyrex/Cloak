@@ -28,6 +28,7 @@ public partial class Level : Node
 		_tileScene = GD.Load<PackedScene>("res://Tile.tscn");
 
 		GenerateLevel();
+		GenerateEnemies();
 		//PrintLevel();
 
 		Texture2D grass = GD.Load<Texture2D>("res://art/terrain/tile_0000.png");
@@ -90,6 +91,49 @@ public partial class Level : Node
 						map[x + dx, y + dy] = tileType;
 					}
 				}
+			}
+		}
+	}
+
+	void GenerateEnemies()
+	{
+		var enemy = GD.Load<PackedScene>("res://Enemy.tscn");
+
+		if (LevelNumber == 1)
+		{
+			var enemyInstance = enemy.Instantiate<Enemy>();
+			enemyInstance.Position = new Vector2(406, 31);
+
+			AddChild(enemyInstance);
+		}
+		else if (LevelNumber > 1 && LevelNumber <= 3)
+		{
+			int enemyCount = LevelNumber + 2;
+			for (int i = 0; i < enemyCount; i++)
+			{
+				var enemyInstance = enemy.Instantiate<Enemy>();
+				enemyInstance.Position = new Vector2(
+					Random.Shared.Next(60, mapWidth * tileSize - 60),
+					Random.Shared.Next(60, mapHeight * tileSize - 120)
+				);
+				AddChild(enemyInstance);
+			}
+		}
+		else if (LevelNumber > 3 && LevelNumber <= 8)
+		{
+			int enemyCount = LevelNumber + 2;
+			for (int i = 0; i < enemyCount; i++)
+			{
+				var enemyInstance = enemy.Instantiate<Enemy>();
+				enemyInstance.Position = new Vector2(
+					Random.Shared.Next(60, mapWidth * tileSize - 60),
+					Random.Shared.Next(60, mapHeight * tileSize - 120)
+				);
+				enemyInstance.RotationDegrees = Random.Shared.Next(
+					-LevelNumber * 10,
+					LevelNumber * 10
+				);
+				AddChild(enemyInstance);
 			}
 		}
 	}
