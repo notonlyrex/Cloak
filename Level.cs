@@ -123,11 +123,12 @@ public partial class Level : Node
 
 	void GenerateEnemies()
 	{
-		var enemy = GD.Load<PackedScene>("res://RotatingEnemy.tscn");
+		var enemy = GD.Load<PackedScene>("res://Enemy.tscn");
+		var rotenemy = GD.Load<PackedScene>("res://RotatingEnemy.tscn");
 
 		if (LevelNumber == 1)
 		{
-			var enemyInstance = enemy.Instantiate<RotatingEnemy>();
+			var enemyInstance = enemy.Instantiate<Enemy>();
 			enemyInstance.Position = new Vector2(406, 31);
 
 			AddChild(enemyInstance);
@@ -160,6 +161,46 @@ public partial class Level : Node
 					LevelNumber * 10
 				);
 				AddChild(enemyInstance);
+			}
+		}
+		else if (LevelNumber == 9)
+		{
+			var enemyInstance = rotenemy.Instantiate<RotatingEnemy>();
+			enemyInstance.Position = new Vector2(406, 31);
+
+			AddChild(enemyInstance);
+		}
+		else
+		{
+			int enemyCount = LevelNumber;
+			for (int i = 0; i < enemyCount; i++)
+			{
+				if (Random.Shared.NextDouble() > 0.5)
+				{
+					var rotatingEnemyInstance = rotenemy.Instantiate<RotatingEnemy>();
+					rotatingEnemyInstance.Position = new Vector2(
+						Random.Shared.Next(60, mapWidth * tileSize - 60),
+						Random.Shared.Next(60, mapHeight * tileSize - 120)
+					);
+					rotatingEnemyInstance.RotationDegrees = Random.Shared.Next(
+						-LevelNumber * 15,
+						LevelNumber * 15
+					);
+					AddChild(rotatingEnemyInstance);
+				}
+				else
+				{
+					var enemyInstance = enemy.Instantiate<Enemy>();
+					enemyInstance.Position = new Vector2(
+						Random.Shared.Next(60, mapWidth * tileSize - 60),
+						Random.Shared.Next(60, mapHeight * tileSize - 120)
+					);
+					enemyInstance.RotationDegrees = Random.Shared.Next(
+						-LevelNumber * 15,
+						LevelNumber * 15
+					);
+					AddChild(enemyInstance);
+				}
 			}
 		}
 	}
