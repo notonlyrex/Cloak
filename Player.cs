@@ -7,6 +7,9 @@ public partial class Player : Area2D
 	public delegate void HitEventHandler();
 
 	[Signal]
+	public delegate void FinishEventHandler();
+
+	[Signal]
 	public delegate void CamouflageUpdatedEventHandler(float contrast, int energy, bool active);
 
 	[Export]
@@ -27,132 +30,138 @@ public partial class Player : Area2D
 	{
 		var velocity = Vector2.Zero; // The player's movement vector.
 
-		if (Input.IsActionPressed("move_right"))
-		{
-			velocity.X += 1;
-		}
+        if (Input.IsActionPressed("move_right"))
+        {
+            velocity.X += 1;
+        }
 
-		if (Input.IsActionPressed("move_left"))
-		{
-			velocity.X -= 1;
-		}
+        if (Input.IsActionPressed("move_left"))
+        {
+            velocity.X -= 1;
+        }
 
-		if (Input.IsActionPressed("move_down"))
-		{
-			velocity.Y += 1;
-		}
+        if (Input.IsActionPressed("move_down"))
+        {
+            velocity.Y += 1;
+        }
 
-		if (Input.IsActionPressed("move_up"))
-		{
-			velocity.Y -= 1;
-		}
+        if (Input.IsActionPressed("move_up"))
+        {
+            velocity.Y -= 1;
+        }
 
-		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+        var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
-		if (velocity.Length() > 0)
-		{
-			velocity = velocity.Normalized() * Speed;
-			animatedSprite2D.Play();
-		}
-		else
-		{
-			animatedSprite2D.Stop();
-		}
+        if (velocity.Length() > 0)
+        {
+            velocity = velocity.Normalized() * Speed;
+            animatedSprite2D.Play();
+        }
+        else
+        {
+            animatedSprite2D.Stop();
+        }
 
-		Position += velocity * (float)delta;
-		Position = new Vector2(
-			x: Mathf.Clamp(Position.X, 0, ScreenSize.X),
-			y: Mathf.Clamp(Position.Y, 0, ScreenSize.Y)
-		);
+        Position += velocity * (float)delta;
+        Position = new Vector2(
+            x: Mathf.Clamp(Position.X, 0, ScreenSize.X),
+            y: Mathf.Clamp(Position.Y, 0, ScreenSize.Y)
+        );
 
-		if (velocity.X != 0)
-		{
-			//animatedSprite2D.Animation = "walk";
-			//animatedSprite2D.FlipV = false;
-			// See the note below about the following boolean assignment.
-			//animatedSprite2D.FlipH = velocity.X < 0;
-		}
-		else if (velocity.Y != 0)
-		{
-			//animatedSprite2D.Animation = "up";
-			//animatedSprite2D.FlipV = velocity.Y > 0;
-		}
+        if (velocity.X != 0)
+        {
+            //animatedSprite2D.Animation = "walk";
+            //animatedSprite2D.FlipV = false;
+            // See the note below about the following boolean assignment.
+            //animatedSprite2D.FlipH = velocity.X < 0;
+        }
+        else if (velocity.Y != 0)
+        {
+            //animatedSprite2D.Animation = "up";
+            //animatedSprite2D.FlipV = velocity.Y > 0;
+        }
 
-		CalculateContrast();
+        CalculateContrast();
 
-		EmitSignal(
-			SignalName.CamouflageUpdated,
-			contrast,
-			GetNode<Camouflage>("Camouflage").Energy,
-			GetNode<Camouflage>("Camouflage").IsActive
-		);
-	}
+        EmitSignal(
+            SignalName.CamouflageUpdated,
+            contrast,
+            GetNode<Camouflage>("Camouflage").Energy,
+            GetNode<Camouflage>("Camouflage").IsActive
+        );
+    }
 
-	private void CheckAllHits()
-	{
-		var area2DList = GetOverlappingAreas();
-		foreach (var area in area2DList)
-		{
-			if (area is Enemy enemy)
-			{
-				CheckHit();
-			}
-		}
-	}
+    private void CheckAllHits()
+    {
+        var area2DList = GetOverlappingAreas();
+        foreach (var area in area2DList)
+        {
+            if (area is Enemy enemy)
+            {
+                CheckHit();
+            }
+        }
+    }
 
-	private void CalculateContrast()
-	{
-		// player checking collisions with background tiles
-		// and calculating average contrast between itself and tiles
-		var area2DList = GetOverlappingAreas();
+    private void CalculateContrast()
+    {
+        // player checking collisions with background tiles
+        // and calculating average contrast between itself and tiles
+        var area2DList = GetOverlappingAreas();
 
-		float averageContrast = 0f;
-		int tileCount = 0;
-		foreach (var area in area2DList)
-		{
-			if (area is Tile tile)
-			{
-				var camouflage = GetNode<Camouflage>("Camouflage");
-				contrast = camouflage.CalculateContrast(tile);
-				averageContrast += contrast;
-				tileCount++;
-			}
-		}
+        float averageContrast = 0f;
+        int tileCount = 0;
+        foreach (var area in area2DList)
+        {
+            if (area is Tile tile)
+            {
+                var camouflage = GetNode<Camouflage>("Camouflage");
+                contrast = camouflage.CalculateContrast(tile);
+                averageContrast += contrast;
+                tileCount++;
+            }
+        }
 
-		if (tileCount > 0)
-		{
-			averageContrast /= tileCount;
-			contrast = averageContrast;
-		}
-		else
-		{
-			contrast = 1f;
-		}
-	}
+        if (tileCount > 0)
+        {
+            averageContrast /= tileCount;
+            contrast = averageContrast;
+        }
+        else
+        {
+            contrast = 1f;
+        }
+    }
 
-	private void CheckHit()
-	{
-		if (contrast > 0.2f)
-		{
-			GD.Print("Player is visible and takes damage.");
-			EmitSignal(SignalName.Hit);
-		}
-		else
-		{
-			GD.Print("Player is camouflaged and avoids damage.");
-		}
-	}
+    private void CheckHit()
+    {
+        if (contrast > 0.2f)
+        {
+            GD.Print("Player is visible and takes damage.");
+            EmitSignal(SignalName.Hit);
+        }
+        else
+        {
+            GD.Print("Player is camouflaged and avoids damage.");
+        }
+    }
 
-	private void OnBodyEntered(Area2D body)
-	{
-		if (body is Enemy)
-		{
-			GD.Print("Player hit an enemy!");
-			CheckHit();
-		}
+    private void OnBodyEntered(Area2D body)
+    {
+        if (body is Enemy)
+        {
+            GD.Print("Player hit an enemy!");
+            CheckHit();
+        }
 
-		// Hide(); // Player disappears after being hit.
-		// EmitSignal(SignalName.Hit);
+        if (body is FinishPoint)
+        {
+            GD.Print("Level Finished!");
+            EmitSignal(SignalName.Finish);
+        }
+
+        // Hide(); // Player disappears after being hit.
+        // EmitSignal(SignalName.Hit);
 		// // Must be deferred as we can't change physics properties on a physics callback.
 		// GetNode<CollisionShape2D>("CollisionShape2D")
 		// 	.SetDeferred(CollisionShape2D.PropertyName.Disabled, true);

@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://ccp6nrb812n3k" path="res://player.tscn" id="3_oi3di"]
 [ext_resource type="PackedScene" uid="uid://kn4bwy7845ug" path="res://Enemy.tscn" id="4_0b4ue"]
 [ext_resource type="PackedScene" uid="uid://b1edkc1him64l" path="res://HUD.tscn" id="5_f2txt"]
+[ext_resource type="PackedScene" uid="uid://2qm2a0f87scr" path="res://FinishPoint.tscn" id="6_1ainy"]
 
 [node name="Level" type="Node" unique_id=1349467936]
 script = ExtResource("1_vonw3")
@@ -17,5 +18,8 @@ position = Vector2(28, 35)
 position = Vector2(451, 187)
 
 [node name="Hud" parent="." unique_id=1158713380 instance=ExtResource("5_f2txt")]
+
+[node name="FinishPoint" parent="." unique_id=1802560117 instance=ExtResource("6_1ainy")]
+position = Vector2(603, 444)
 
 [connection signal="CamouflageUpdated" from="Player" to="Hud" method="OnCamouflageUpdated"]
