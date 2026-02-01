@@ -2,11 +2,21 @@
 
 [ext_resource type="Script" uid="uid://dik6a55dtja2" path="res://Player.cs" id="1_onrkg"]
 [ext_resource type="Texture2D" uid="uid://p7ib8dqglni7" path="res://art/hero_left.png" id="2_e80uo"]
+[ext_resource type="Texture2D" uid="uid://cmfh0en85fkou" path="res://art/hero_front.png" id="2_tdg3f"]
 [ext_resource type="Texture2D" uid="uid://ci4jj3yel53ai" path="res://art/hero_right.png" id="3_cxr5p"]
 [ext_resource type="Script" uid="uid://c546nmo065tf4" path="res://Camouflage.cs" id="3_i3pqv"]
+[ext_resource type="Texture2D" uid="uid://cpm816wfol4q6" path="res://art/hero_back.png" id="5_dtqjt"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_hqtel"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_tdg3f")
+}],
+"loop": true,
+"name": &"down",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("2_e80uo")
@@ -22,6 +32,14 @@ animations = [{
 "loop": true,
 "name": &"right",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_dtqjt")
+}],
+"loop": true,
+"name": &"up",
+"speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kne1u"]
@@ -35,7 +53,7 @@ script = ExtResource("1_onrkg")
 texture_filter = 1
 scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_hqtel")
-animation = &"right"
+animation = &"down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1168481909]
 visible = false
@@ -48,7 +66,7 @@ script = ExtResource("3_i3pqv")
 [node name="Area1" type="Polygon2D" parent="Camouflage" unique_id=546527488]
 position = Vector2(6, 6)
 color = Color(1, 0, 0, 0.39607844)
-polygon = PackedVector2Array(0, -1, 6, -2, 11, -12, 10, -26, 5, -29, 1, -33, -16, -32, -22, -25, -22, -9, -18, -2, -10, 1, -15, 2, -14, 10, -10, 12, -10, 18, -6, 22, -1, 22, 2, 6, 2, 2)
+polygon = PackedVector2Array(0, -1, 6, -2, 11, -12, 10, -26, 5, -29, 1, -33, -16, -32, -22, -25, -22, -9, -18, -2, -10, 1, -15, 2, -14, 10, 2, 10, 2, 6, 2, 2)
 
 [node name="Timer" type="Timer" parent="Camouflage" unique_id=1630032834]
 autostart = true

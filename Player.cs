@@ -16,7 +16,7 @@ public partial class Player : Area2D
     public delegate void CamouflageUpdatedEventHandler(float contrast, int energy, bool active);
 
     [Export]
-    public int Speed { get; set; } = 400; // How fast the player will move (pixels/sec).
+    public int Speed { get; set; } = 300; // How fast the player will move (pixels/sec).
 
     public Vector2 ScreenSize;
 
@@ -75,15 +75,20 @@ public partial class Player : Area2D
 
         if (velocity.X != 0)
         {
-            //animatedSprite2D.Animation = "walk";
+            animatedSprite2D.Animation = "right";
             //animatedSprite2D.FlipV = false;
 
             animatedSprite2D.FlipH = velocity.X < 0;
         }
-        else if (velocity.Y != 0)
+        else if (velocity.Y < 0)
         {
-            //animatedSprite2D.Animation = "up";
+            animatedSprite2D.Animation = "up";
             //animatedSprite2D.FlipV = velocity.Y > 0;
+        }
+        else if (velocity.Y > 0)
+        {
+            animatedSprite2D.Animation = "down";
+            //animatedSprite2D.FlipV = false;
         }
 
         CalculateContrast();

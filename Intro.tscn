@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c70b1motfg7qn"]
 
-[ext_resource type="PackedScene" path="res://player.tscn" id="1_gjrx4"]
+[ext_resource type="PackedScene" uid="uid://djaddj7lmh4ba" path="res://player.tscn" id="1_gjrx4"]
 [ext_resource type="Script" uid="uid://cp2j66upbom4m" path="res://Intro.cs" id="1_sb8jg"]
 [ext_resource type="LabelSettings" uid="uid://coxyjoop5ycbj" path="res://fontsettings.tres" id="2_vltdc"]
 [ext_resource type="Texture2D" uid="uid://bdgywuh7jn5tr" path="res://art/screen_title.png" id="4_33sem"]
@@ -15,7 +15,7 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -307.5
-offset_top = -187.0
+offset_top = -206.0
 offset_right = 307.5
 grow_horizontal = 2
 grow_vertical = 0
@@ -25,7 +25,7 @@ You can use Left, Right, Up and Down to move it.
 But it can activate ADAPTIVE MASKING with \"S\" button.
 \"A\" and \"D\" will change the mask color.
 
-Try to maintain the 90% masking level."
+Try to maintain at least 70% masking level when crossing detection beams."
 label_settings = ExtResource("2_vltdc")
 autowrap_mode = 2
 

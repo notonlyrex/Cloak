@@ -13,7 +13,7 @@ config_version=5
 config/name="Cloak"
 run/main_scene="uid://df8cuutpfvex2"
 config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="uid://cmfh0en85fkou"
 
 [display]
 
