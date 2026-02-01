@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://bpphd4jq71ugb"]
 
 [ext_resource type="Script" uid="uid://dr6sdp7im7481" path="res://RotatingEnemy.cs" id="1_tfqtr"]
-[ext_resource type="Texture2D" uid="uid://cudqqwpj47beo" path="res://art/tile_0067.png" id="2_lqkuv"]
+[ext_resource type="Texture2D" uid="uid://ju4a123m4pqd" path="res://art/robo_02.png" id="2_tfqtr"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_s7bn3"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_lqkuv")
+"texture": ExtResource("2_tfqtr")
 }],
 "loop": true,
 "name": &"default",
@@ -39,4 +39,4 @@ shape = SubResource("RectangleShape2D_s7bn3")
 
 [node name="Polygon2D" type="Polygon2D" parent="." unique_id=1845593656]
 color = Color(1, 0, 0, 0.4509804)
-polygon = PackedVector2Array(-10, 30, 10, 30, 9, 219, 1, 464, -10, 219)
+polygon = PackedVector2Array(-18, 27, 18, 27, 9, 219, 1, 464, -10, 219)
