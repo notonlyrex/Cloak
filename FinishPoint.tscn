@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://2qm2a0f87scr"]
 
-[ext_resource type="Texture2D" uid="uid://d164fjd3hvhnv" path="res://art/tile_0009.png" id="1_6hif8"]
 [ext_resource type="Script" uid="uid://cncw02plrd30v" path="res://FinishPoint.cs" id="1_t0bal"]
+[ext_resource type="Texture2D" uid="uid://4csifu1u0e5i" path="res://art/target.png" id="2_t0bal"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_16umt"]
 size = Vector2(65, 64)
@@ -12,7 +12,7 @@ script = ExtResource("1_t0bal")
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1897606111]
 texture_filter = 1
 scale = Vector2(4, 4)
-texture = ExtResource("1_6hif8")
+texture = ExtResource("2_t0bal")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1988338556]
 position = Vector2(0.5, 0)
