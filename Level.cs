@@ -4,248 +4,257 @@ using Godot;
 
 public partial class Level : Node
 {
-	[Signal]
-	public delegate void LevelFinishedEventHandler();
+    [Signal]
+    public delegate void LevelFinishedEventHandler();
 
-	[Signal]
-	public delegate void GameOverEventHandler();
+    [Signal]
+    public delegate void GameOverEventHandler();
 
-	int mapWidth = 10;
-	int mapHeight = 8;
+    int mapWidth = 10;
+    int mapHeight = 8;
 
-	const int BlockSize = 2;
+    const int BlockSize = 2;
 
-	int tileSize = 64;
+    int tileSize = 64;
 
-	private int[,] map;
+    private int[,] map;
 
-	private PackedScene _tileScene;
+    private PackedScene _tileScene;
 
-	public int LevelNumber { get; set; } = 1;
+    public int LevelNumber { get; set; } = 1;
 
-	public override void _Ready()
-	{
-		_tileScene = GD.Load<PackedScene>("res://Tile.tscn");
+    public override void _Ready()
+    {
+        _tileScene = GD.Load<PackedScene>("res://Tile.tscn");
 
-		GenerateLevel();
-		GenerateEnemies();
-		//PrintLevel();
+        GenerateLevel();
+        GenerateEnemies();
+        //PrintLevel();
 
-		Texture2D grass = GD.Load<Texture2D>("res://art/terrain/tile_0000.png");
-		Texture2D grass2 = GD.Load<Texture2D>("res://art/terrain/tile_0001.png");
-		Texture2D grass3 = GD.Load<Texture2D>("res://art/terrain/tile_0002.png");
+        Texture2D tile1 = GD.Load<Texture2D>("res://art/terrain/tile_00.PNG");
+        Texture2D tile2 = GD.Load<Texture2D>("res://art/terrain/tile_01.PNG");
+        Texture2D tile3 = GD.Load<Texture2D>("res://art/terrain/tile_02.PNG");
+        Texture2D tile4 = GD.Load<Texture2D>("res://art/terrain/tile_03.PNG");
+        Texture2D tile5 = GD.Load<Texture2D>("res://art/terrain/tile_04.PNG");
+        Texture2D tile6 = GD.Load<Texture2D>("res://art/terrain/tile_05.PNG");
+        Texture2D tile7 = GD.Load<Texture2D>("res://art/terrain/tile_06.PNG");
+        Texture2D tile8 = GD.Load<Texture2D>("res://art/terrain/tile_07.PNG");
 
-		Texture2D water = GD.Load<Texture2D>("res://art/terrain/tile_0037.png");
+        for (int i = 0; i < mapWidth; i++)
+        {
+            for (int j = 0; j < mapHeight; j++)
+            {
+                Tile tile = _tileScene.Instantiate<Tile>();
+                tile.Position = new Vector2(i * tileSize, j * tileSize);
+                AddChild(tile);
 
-		Texture2D urban = GD.Load<Texture2D>("res://art/terrain/tile_0110.png");
+                // _Ready is run after AddChild, so _sprite is initialized
+                // so SetTexture wasn't working earlier
+                switch (map[i, j])
+                {
+                    case 0:
+                        tile.SetTexture(tile1);
+                        tile.TileColor = Colors.Gray;
+                        break;
+                    case 1:
+                        tile.SetTexture(tile2);
+                        tile.TileColor = Colors.Red;
+                        break;
+                    case 2:
+                        tile.SetTexture(tile3);
+                        tile.TileColor = Colors.Yellow;
+                        break;
+                    case 3:
+                        tile.SetTexture(tile4);
+                        tile.TileColor = Colors.LightGreen;
+                        break;
+                    case 4:
+                        tile.SetTexture(tile5);
+                        tile.TileColor = Colors.DarkGreen;
+                        break;
+                    case 5:
+                        tile.SetTexture(tile6);
+                        tile.TileColor = Colors.LightBlue;
+                        break;
+                    case 6:
+                        tile.SetTexture(tile7);
+                        tile.TileColor = Colors.DarkBlue;
+                        break;
+                    default:
+                        tile.SetTexture(tile8);
+                        tile.TileColor = Colors.Violet;
+                        break;
+                }
+            }
+        }
 
-		for (int i = 0; i < mapWidth; i++)
-		{
-			for (int j = 0; j < mapHeight; j++)
-			{
-				Tile tile = _tileScene.Instantiate<Tile>();
-				tile.Position = new Vector2(i * tileSize, j * tileSize);
-				AddChild(tile);
+        GetNode<Hud>("Hud").SetLevelNumber(LevelNumber);
+    }
 
-				// _Ready is run after AddChild, so _sprite is initialized
-				// so SetTexture wasn't working earlier
-				switch (map[i, j])
-				{
-					case 0:
-						tile.SetTexture(grass);
-						tile.TileColor = Colors.Green;
-						break;
-					case 1:
-						tile.SetTexture(water);
-						tile.TileColor = Colors.Blue;
-						break;
-					case 2:
-						tile.SetTexture(grass2);
-						tile.TileColor = Colors.LightGreen;
-						break;
-					case 3:
-						tile.SetTexture(grass3);
-						tile.TileColor = Colors.DarkGreen;
-						break;
-					case 4:
-						tile.SetTexture(urban);
-						tile.TileColor = Colors.Gray;
-						break;
-					default:
-						tile.SetTexture(grass);
-						tile.TileColor = Colors.Green;
-						break;
-				}
-			}
-		}
+    void GenerateLevel()
+    {
+        // tile types are generated from level number
+        // first level has 2 types, second has 3, etc.
+        // up to a max of 7 types
+        var tileTypes = 2;
+        if (LevelNumber > 1)
+        {
+            tileTypes = Math.Min(2 + LevelNumber - 1, 7);
+        }
 
-		GetNode<Hud>("Hud").SetLevelNumber(LevelNumber);
-	}
+        // similarly, increase map size with level number
+        // up to a max size
+        mapWidth = Math.Min(10 + (LevelNumber - 1) * 2, 20);
+        mapHeight = Math.Min(8 + (LevelNumber - 1) * 2, 16);
 
-	void GenerateLevel()
-	{
-		// tile types are generated from level number
-		// first level has 2 types, second has 3, etc.
-		// up to a max of 5 types
-		var tileTypes = 2;
-		if (LevelNumber > 1)
-		{
-			tileTypes = Math.Min(2 + LevelNumber - 1, 5);
-		}
+        // and decrease tile size to fit more on screen
+        tileSize = Math.Max(64 - (LevelNumber - 1) * 4, 32);
 
-		// similarly, increase map size with level number
-		// up to a max size
-		mapWidth = Math.Min(10 + (LevelNumber - 1) * 2, 20);
-		mapHeight = Math.Min(8 + (LevelNumber - 1) * 2, 16);
+        map = new int[mapWidth, mapHeight];
 
-		// and decrease tile size to fit more on screen
-		tileSize = Math.Max(64 - (LevelNumber - 1) * 4, 32);
+        for (int x = 0; x < mapWidth; x += BlockSize)
+        {
+            for (int y = 0; y < mapHeight; y += BlockSize)
+            {
+                int tileType = Random.Shared.Next(tileTypes);
 
-		map = new int[mapWidth, mapHeight];
+                // Fill 2x2 block
+                for (int dx = 0; dx < BlockSize; dx++)
+                {
+                    for (int dy = 0; dy < BlockSize; dy++)
+                    {
+                        map[x + dx, y + dy] = tileType;
+                    }
+                }
+            }
+        }
+    }
 
-		for (int x = 0; x < mapWidth; x += BlockSize)
-		{
-			for (int y = 0; y < mapHeight; y += BlockSize)
-			{
-				int tileType = Random.Shared.Next(tileTypes);
+    void GenerateEnemies()
+    {
+        var enemy = GD.Load<PackedScene>("res://Enemy.tscn");
+        var rotenemy = GD.Load<PackedScene>("res://RotatingEnemy.tscn");
 
-				// Fill 2x2 block
-				for (int dx = 0; dx < BlockSize; dx++)
-				{
-					for (int dy = 0; dy < BlockSize; dy++)
-					{
-						map[x + dx, y + dy] = tileType;
-					}
-				}
-			}
-		}
-	}
+        if (LevelNumber == 1)
+        {
+            var enemyInstance = enemy.Instantiate<Enemy>();
+            enemyInstance.Position = new Vector2(406, 31);
 
-	void GenerateEnemies()
-	{
-		var enemy = GD.Load<PackedScene>("res://Enemy.tscn");
-		var rotenemy = GD.Load<PackedScene>("res://RotatingEnemy.tscn");
+            AddChild(enemyInstance);
+        }
+        else if (LevelNumber > 1 && LevelNumber <= 3)
+        {
+            int enemyCount = LevelNumber + 2;
+            for (int i = 0; i < enemyCount; i++)
+            {
+                var enemyInstance = enemy.Instantiate<Enemy>();
+                enemyInstance.Position = new Vector2(
+                    Random.Shared.Next(60, mapWidth * tileSize - 60),
+                    Random.Shared.Next(60, mapHeight * tileSize - 120)
+                );
+                AddChild(enemyInstance);
+            }
+        }
+        else if (LevelNumber > 3 && LevelNumber <= 8)
+        {
+            int enemyCount = LevelNumber + 2;
+            for (int i = 0; i < enemyCount; i++)
+            {
+                var enemyInstance = enemy.Instantiate<Enemy>();
+                enemyInstance.Position = new Vector2(
+                    Random.Shared.Next(60, mapWidth * tileSize - 60),
+                    Random.Shared.Next(60, mapHeight * tileSize - 120)
+                );
+                enemyInstance.RotationDegrees = Random.Shared.Next(
+                    -LevelNumber * 10,
+                    LevelNumber * 10
+                );
+                AddChild(enemyInstance);
+            }
+        }
+        else if (LevelNumber == 9)
+        {
+            var enemyInstance = rotenemy.Instantiate<RotatingEnemy>();
+            enemyInstance.RotationDegrees = 180;
+            enemyInstance.Position = new Vector2(406, 31);
 
-		if (LevelNumber == 1)
-		{
-			var enemyInstance = enemy.Instantiate<Enemy>();
-			enemyInstance.Position = new Vector2(406, 31);
+            AddChild(enemyInstance);
+        }
+        else if (LevelNumber > 9 && LevelNumber <= 12)
+        {
+            int enemyCount = LevelNumber / 2;
+            for (int i = 0; i < enemyCount; i++)
+            {
+                var rotatingEnemyInstance = rotenemy.Instantiate<RotatingEnemy>();
+                rotatingEnemyInstance.Position = new Vector2(
+                    Random.Shared.Next(60, mapWidth * tileSize - 60),
+                    Random.Shared.Next(60, mapHeight * tileSize - 120)
+                );
+                rotatingEnemyInstance.RotationDegrees = 180;
+                AddChild(rotatingEnemyInstance);
+            }
+        }
+        else
+        {
+            int enemyCount = LevelNumber;
+            for (int i = 0; i < enemyCount; i++)
+            {
+                if (Random.Shared.NextDouble() > 0.5)
+                {
+                    var rotatingEnemyInstance = rotenemy.Instantiate<RotatingEnemy>();
+                    rotatingEnemyInstance.Position = new Vector2(
+                        Random.Shared.Next(60, mapWidth * tileSize - 60),
+                        Random.Shared.Next(60, mapHeight * tileSize - 120)
+                    );
+                    rotatingEnemyInstance.RotationDegrees = Random.Shared.Next(
+                        -LevelNumber * 15,
+                        LevelNumber * 15
+                    );
+                    AddChild(rotatingEnemyInstance);
+                }
+                else
+                {
+                    var enemyInstance = enemy.Instantiate<Enemy>();
+                    enemyInstance.Position = new Vector2(
+                        Random.Shared.Next(60, mapWidth * tileSize - 60),
+                        Random.Shared.Next(60, mapHeight * tileSize - 120)
+                    );
+                    enemyInstance.RotationDegrees = Random.Shared.Next(
+                        -LevelNumber * 15,
+                        LevelNumber * 15
+                    );
+                    AddChild(enemyInstance);
+                }
+            }
+        }
+    }
 
-			AddChild(enemyInstance);
-		}
-		else if (LevelNumber > 1 && LevelNumber <= 3)
-		{
-			int enemyCount = LevelNumber + 2;
-			for (int i = 0; i < enemyCount; i++)
-			{
-				var enemyInstance = enemy.Instantiate<Enemy>();
-				enemyInstance.Position = new Vector2(
-					Random.Shared.Next(60, mapWidth * tileSize - 60),
-					Random.Shared.Next(60, mapHeight * tileSize - 120)
-				);
-				AddChild(enemyInstance);
-			}
-		}
-		else if (LevelNumber > 3 && LevelNumber <= 8)
-		{
-			int enemyCount = LevelNumber + 2;
-			for (int i = 0; i < enemyCount; i++)
-			{
-				var enemyInstance = enemy.Instantiate<Enemy>();
-				enemyInstance.Position = new Vector2(
-					Random.Shared.Next(60, mapWidth * tileSize - 60),
-					Random.Shared.Next(60, mapHeight * tileSize - 120)
-				);
-				enemyInstance.RotationDegrees = Random.Shared.Next(
-					-LevelNumber * 10,
-					LevelNumber * 10
-				);
-				AddChild(enemyInstance);
-			}
-		}
-		else if (LevelNumber == 9)
-		{
-			var enemyInstance = rotenemy.Instantiate<RotatingEnemy>();
-			enemyInstance.RotationDegrees = 180;
-			enemyInstance.Position = new Vector2(406, 31);
+    void PrintLevel()
+    {
+        for (int y = 0; y < mapHeight; y++)
+        {
+            string row = "";
+            for (int x = 0; x < mapWidth; x++)
+            {
+                row += map[x, y] + " ";
+            }
+            GD.Print(row);
+        }
+    }
 
-			AddChild(enemyInstance);
-		}
-		else if (LevelNumber > 9 && LevelNumber <= 12)
-		{
-			int enemyCount = LevelNumber / 2;
-			for (int i = 0; i < enemyCount; i++)
-			{
-				var rotatingEnemyInstance = rotenemy.Instantiate<RotatingEnemy>();
-				rotatingEnemyInstance.Position = new Vector2(
-					Random.Shared.Next(60, mapWidth * tileSize - 60),
-					Random.Shared.Next(60, mapHeight * tileSize - 120)
-				);
-				rotatingEnemyInstance.RotationDegrees = 180;
-				AddChild(rotatingEnemyInstance);
-			}
-		}
-		else
-		{
-			int enemyCount = LevelNumber;
-			for (int i = 0; i < enemyCount; i++)
-			{
-				if (Random.Shared.NextDouble() > 0.5)
-				{
-					var rotatingEnemyInstance = rotenemy.Instantiate<RotatingEnemy>();
-					rotatingEnemyInstance.Position = new Vector2(
-						Random.Shared.Next(60, mapWidth * tileSize - 60),
-						Random.Shared.Next(60, mapHeight * tileSize - 120)
-					);
-					rotatingEnemyInstance.RotationDegrees = Random.Shared.Next(
-						-LevelNumber * 15,
-						LevelNumber * 15
-					);
-					AddChild(rotatingEnemyInstance);
-				}
-				else
-				{
-					var enemyInstance = enemy.Instantiate<Enemy>();
-					enemyInstance.Position = new Vector2(
-						Random.Shared.Next(60, mapWidth * tileSize - 60),
-						Random.Shared.Next(60, mapHeight * tileSize - 120)
-					);
-					enemyInstance.RotationDegrees = Random.Shared.Next(
-						-LevelNumber * 15,
-						LevelNumber * 15
-					);
-					AddChild(enemyInstance);
-				}
-			}
-		}
-	}
+    private void OnLevelCompleted()
+    {
+        EmitSignal(SignalName.LevelFinished);
+    }
 
-	void PrintLevel()
-	{
-		for (int y = 0; y < mapHeight; y++)
-		{
-			string row = "";
-			for (int x = 0; x < mapWidth; x++)
-			{
-				row += map[x, y] + " ";
-			}
-			GD.Print(row);
-		}
-	}
+    private void OnGameOver()
+    {
+        EmitSignal(SignalName.GameOver);
+    }
 
-	private void OnLevelCompleted()
-	{
-		EmitSignal(SignalName.LevelFinished);
-	}
+    [Export]
+    public PackedScene BasicTile { get; set; }
 
-	private void OnGameOver()
-	{
-		EmitSignal(SignalName.GameOver);
-	}
-
-	[Export]
-	public PackedScene BasicTile { get; set; }
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta) { }
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta) { }
 }
