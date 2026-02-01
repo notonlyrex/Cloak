@@ -18,7 +18,6 @@ You cannot get detected, so you can use an Adaptive Camouflage to mask you with 
 
 ![game over screen](docs/4.png)
 
-
 ## Theme & Diversifiers
 
 "Mask" theme has been adapted - the core mechanic is masking yourself. Use an adaptive camouflage, change your color, mask with the background and you can cross the detection beams.
