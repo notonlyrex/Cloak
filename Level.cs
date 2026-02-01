@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using Godot;
 
@@ -21,7 +22,7 @@ public partial class Level : Node
 
     private PackedScene _tileScene;
 
-    public int LevelNumber { get; set; } = 1;
+    public int LevelNumber { get; set; } = 3;
 
     public override void _Ready()
     {
@@ -135,23 +136,51 @@ public partial class Level : Node
         var enemy = GD.Load<PackedScene>("res://Enemy.tscn");
         var rotenemy = GD.Load<PackedScene>("res://RotatingEnemy.tscn");
 
+        List<(int, int)> usedPositions = new List<(int, int)>();
+
         if (LevelNumber == 1)
         {
             var enemyInstance = enemy.Instantiate<Enemy>();
-            enemyInstance.Position = new Vector2(406, 31);
+            int x = 6;
+            int y = 0;
+
+            enemyInstance.Position = new Vector2(
+                tileSize * x + tileSize / 2,
+                tileSize * y + tileSize / 2
+            );
 
             AddChild(enemyInstance);
         }
-        else if (LevelNumber > 1 && LevelNumber <= 3)
+        else if (LevelNumber > 1 && LevelNumber <= 2)
         {
             int enemyCount = LevelNumber + 2;
             for (int i = 0; i < enemyCount; i++)
             {
                 var enemyInstance = enemy.Instantiate<Enemy>();
+
+                GetRandomPosition(usedPositions, out int x, out int y);
+
                 enemyInstance.Position = new Vector2(
-                    Random.Shared.Next(60, mapWidth * tileSize - 60),
-                    Random.Shared.Next(60, mapHeight * tileSize - 120)
+                    tileSize * x + tileSize / 2,
+                    tileSize * y + tileSize / 2
                 );
+                AddChild(enemyInstance);
+            }
+        }
+        else if (LevelNumber == 3)
+        {
+            int enemyCount = LevelNumber + 2;
+            for (int i = 0; i < enemyCount; i++)
+            {
+                var enemyInstance = enemy.Instantiate<Enemy>();
+
+                GetRandomPosition(usedPositions, out int x, out int y);
+
+                enemyInstance.Position = new Vector2(
+                    tileSize * x + tileSize / 2,
+                    tileSize * y + tileSize / 2
+                );
+                enemyInstance.RotationDegrees = Random.Shared.Next(0, 2) * 90;
                 AddChild(enemyInstance);
             }
         }
@@ -161,9 +190,10 @@ public partial class Level : Node
             for (int i = 0; i < enemyCount; i++)
             {
                 var enemyInstance = enemy.Instantiate<Enemy>();
+                GetRandomPosition(usedPositions, out int x, out int y);
                 enemyInstance.Position = new Vector2(
-                    Random.Shared.Next(60, mapWidth * tileSize - 60),
-                    Random.Shared.Next(60, mapHeight * tileSize - 120)
+                    tileSize * x + tileSize / 2,
+                    tileSize * y + tileSize / 2
                 );
                 enemyInstance.RotationDegrees = Random.Shared.Next(
                     -LevelNumber * 10,
@@ -176,35 +206,26 @@ public partial class Level : Node
         {
             var enemyInstance = rotenemy.Instantiate<RotatingEnemy>();
             enemyInstance.RotationDegrees = 180;
-            enemyInstance.Position = new Vector2(406, 31);
+            GetRandomPosition(usedPositions, out int x, out int y);
+            enemyInstance.Position = new Vector2(
+                tileSize * x + tileSize / 2,
+                tileSize * y + tileSize / 2
+            );
 
             AddChild(enemyInstance);
         }
-        else if (LevelNumber > 9 && LevelNumber <= 12)
+        else
         {
             int enemyCount = LevelNumber / 2;
             for (int i = 0; i < enemyCount; i++)
             {
-                var rotatingEnemyInstance = rotenemy.Instantiate<RotatingEnemy>();
-                rotatingEnemyInstance.Position = new Vector2(
-                    Random.Shared.Next(60, mapWidth * tileSize - 60),
-                    Random.Shared.Next(60, mapHeight * tileSize - 120)
-                );
-                rotatingEnemyInstance.RotationDegrees = 180;
-                AddChild(rotatingEnemyInstance);
-            }
-        }
-        else
-        {
-            int enemyCount = LevelNumber;
-            for (int i = 0; i < enemyCount; i++)
-            {
-                if (Random.Shared.NextDouble() > 0.5)
+                if (Random.Shared.NextDouble() < LevelNumber / 100.0)
                 {
                     var rotatingEnemyInstance = rotenemy.Instantiate<RotatingEnemy>();
+                    GetRandomPosition(usedPositions, out int x, out int y);
                     rotatingEnemyInstance.Position = new Vector2(
-                        Random.Shared.Next(60, mapWidth * tileSize - 60),
-                        Random.Shared.Next(60, mapHeight * tileSize - 120)
+                        tileSize * x + tileSize / 2,
+                        tileSize * y + tileSize / 2
                     );
                     rotatingEnemyInstance.RotationDegrees = Random.Shared.Next(
                         -LevelNumber * 15,
@@ -215,9 +236,10 @@ public partial class Level : Node
                 else
                 {
                     var enemyInstance = enemy.Instantiate<Enemy>();
+                    GetRandomPosition(usedPositions, out int x, out int y);
                     enemyInstance.Position = new Vector2(
-                        Random.Shared.Next(60, mapWidth * tileSize - 60),
-                        Random.Shared.Next(60, mapHeight * tileSize - 120)
+                        tileSize * x + tileSize / 2,
+                        tileSize * y + tileSize / 2
                     );
                     enemyInstance.RotationDegrees = Random.Shared.Next(
                         -LevelNumber * 15,
@@ -227,6 +249,18 @@ public partial class Level : Node
                 }
             }
         }
+    }
+
+    private void GetRandomPosition(List<(int, int)> usedPositions, out int x, out int y)
+    {
+        x = Random.Shared.Next(1, mapWidth - 1);
+        y = Random.Shared.Next(0, mapHeight - 1);
+        while (usedPositions.Contains((x, y)))
+        {
+            x = Random.Shared.Next(1, mapWidth - 1);
+            y = Random.Shared.Next(0, mapHeight - 1);
+        }
+        usedPositions.Add((x, y));
     }
 
     void PrintLevel()

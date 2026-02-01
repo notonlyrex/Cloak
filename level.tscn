@@ -1,8 +1,8 @@
-[gd_scene format=3 uid="uid://calv2tyv76jrx"]
+[gd_scene format=3 uid="uid://h6vt1q37g3qa"]
 
 [ext_resource type="Script" uid="uid://dpipnw76p41td" path="res://Level.cs" id="1_q4iis"]
 [ext_resource type="PackedScene" uid="uid://dtbyedw88e5aa" path="res://Tile.tscn" id="2_m3clv"]
-[ext_resource type="PackedScene" uid="uid://ccp6nrb812n3k" path="res://Player.tscn" id="3_mxnmf"]
+[ext_resource type="PackedScene" uid="uid://djaddj7lmh4ba" path="res://player.tscn" id="3_mxnmf"]
 [ext_resource type="PackedScene" uid="uid://b1edkc1him64l" path="res://HUD.tscn" id="4_4eo0i"]
 [ext_resource type="PackedScene" uid="uid://2qm2a0f87scr" path="res://FinishPoint.tscn" id="5_86ljf"]
 
