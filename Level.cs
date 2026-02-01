@@ -54,8 +54,8 @@ public partial class Level : Node
                 switch (map[i, j])
                 {
                     case 0:
-                        tile.SetTexture(tile1);
-                        tile.TileColor = Colors.Gray;
+                        tile.SetTexture(tile8);
+                        tile.TileColor = Colors.Violet;
                         break;
                     case 1:
                         tile.SetTexture(tile2);
@@ -82,8 +82,8 @@ public partial class Level : Node
                         tile.TileColor = Colors.DarkBlue;
                         break;
                     default:
-                        tile.SetTexture(tile8);
-                        tile.TileColor = Colors.Violet;
+                        tile.SetTexture(tile1);
+                        tile.TileColor = Colors.Gray;
                         break;
                 }
             }
@@ -158,7 +158,7 @@ public partial class Level : Node
             {
                 var enemyInstance = enemy.Instantiate<Enemy>();
 
-                GetRandomPosition(usedPositions, out int x, out int y);
+                GetUniqueRandomPosition(usedPositions, out int x, out int y);
 
                 enemyInstance.Position = new Vector2(
                     tileSize * x + tileSize / 2,
@@ -174,13 +174,17 @@ public partial class Level : Node
             {
                 var enemyInstance = enemy.Instantiate<Enemy>();
 
-                GetRandomPosition(usedPositions, out int x, out int y);
+                GetUniqueRandomPosition(usedPositions, out int x, out int y);
 
                 enemyInstance.Position = new Vector2(
                     tileSize * x + tileSize / 2,
                     tileSize * y + tileSize / 2
                 );
                 enemyInstance.RotationDegrees = Random.Shared.Next(0, 2) * 90;
+                if (enemyInstance.RotationDegrees != 0 && y == 1)
+                {
+                    enemyInstance.RotationDegrees = 0;
+                }
                 AddChild(enemyInstance);
             }
         }
@@ -190,7 +194,7 @@ public partial class Level : Node
             for (int i = 0; i < enemyCount; i++)
             {
                 var enemyInstance = enemy.Instantiate<Enemy>();
-                GetRandomPosition(usedPositions, out int x, out int y);
+                GetUniqueRandomPosition(usedPositions, out int x, out int y);
                 enemyInstance.Position = new Vector2(
                     tileSize * x + tileSize / 2,
                     tileSize * y + tileSize / 2
@@ -206,7 +210,7 @@ public partial class Level : Node
         {
             var enemyInstance = rotenemy.Instantiate<RotatingEnemy>();
             enemyInstance.RotationDegrees = 180;
-            GetRandomPosition(usedPositions, out int x, out int y);
+            GetUniqueRandomPosition(usedPositions, out int x, out int y);
             enemyInstance.Position = new Vector2(
                 tileSize * x + tileSize / 2,
                 tileSize * y + tileSize / 2
@@ -222,7 +226,7 @@ public partial class Level : Node
                 if (Random.Shared.NextDouble() < LevelNumber / 100.0)
                 {
                     var rotatingEnemyInstance = rotenemy.Instantiate<RotatingEnemy>();
-                    GetRandomPosition(usedPositions, out int x, out int y);
+                    GetUniqueRandomPosition(usedPositions, out int x, out int y);
                     rotatingEnemyInstance.Position = new Vector2(
                         tileSize * x + tileSize / 2,
                         tileSize * y + tileSize / 2
@@ -236,7 +240,7 @@ public partial class Level : Node
                 else
                 {
                     var enemyInstance = enemy.Instantiate<Enemy>();
-                    GetRandomPosition(usedPositions, out int x, out int y);
+                    GetUniqueRandomPosition(usedPositions, out int x, out int y);
                     enemyInstance.Position = new Vector2(
                         tileSize * x + tileSize / 2,
                         tileSize * y + tileSize / 2
@@ -251,7 +255,7 @@ public partial class Level : Node
         }
     }
 
-    private void GetRandomPosition(List<(int, int)> usedPositions, out int x, out int y)
+    private void GetUniqueRandomPosition(List<(int, int)> usedPositions, out int x, out int y)
     {
         x = Random.Shared.Next(1, mapWidth - 1);
         y = Random.Shared.Next(0, mapHeight - 1);

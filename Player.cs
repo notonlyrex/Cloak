@@ -3,37 +3,37 @@ using Godot;
 
 public partial class Player : Area2D
 {
-	[Signal]
-	public delegate void HitEventHandler();
+    [Signal]
+    public delegate void HitEventHandler();
 
-	[Signal]
-	public delegate void FinishEventHandler();
+    [Signal]
+    public delegate void FinishEventHandler();
 
-	[Signal]
-	public delegate void GameOverEventHandler();
+    [Signal]
+    public delegate void GameOverEventHandler();
 
-	[Signal]
-	public delegate void CamouflageUpdatedEventHandler(float contrast, int energy, bool active);
+    [Signal]
+    public delegate void CamouflageUpdatedEventHandler(float contrast, int energy, bool active);
 
-	[Export]
-	public int Speed { get; set; } = 400; // How fast the player will move (pixels/sec).
+    [Export]
+    public int Speed { get; set; } = 400; // How fast the player will move (pixels/sec).
 
-	public Vector2 ScreenSize;
+    public Vector2 ScreenSize;
 
-	private float contrast = 1f;
-	private bool levelFinished = false;
+    private float contrast = 1f;
+    private bool levelFinished = false;
 
-	// Called when the node enters the scene tree for the first time.
+    // Called when the node enters the scene tree for the first time.
 
-	public override void _Ready()
-	{
-		ScreenSize = GetViewportRect().Size;
-	}
+    public override void _Ready()
+    {
+        ScreenSize = GetViewportRect().Size;
+    }
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-		var velocity = Vector2.Zero; // The player's movement vector.
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta)
+    {
+        var velocity = Vector2.Zero; // The player's movement vector.
 
         if (Input.IsActionPressed("move_right"))
         {
