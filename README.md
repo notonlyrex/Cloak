@@ -8,7 +8,7 @@ You are steering a small robot, Bob, sent to a mission to check if there are ene
 
 And they are. A lot and lot of them. And the numbers are only increasing.
 
-You cannot get detected, so you can use an Adaptive Camouflage to mask you with the background.
+You cannot get detected, so you can use an Adaptive Camouflage. Maintain the low contrast ratio (ekhm... I mean, mask yourself!) and sneak in front of the bad laser drones.
 
 ![main screen](docs/1.png)
 
